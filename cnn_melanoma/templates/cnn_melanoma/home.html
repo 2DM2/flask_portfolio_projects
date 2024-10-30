@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<header>
+  <div class="column left">    
+  </div>
+  <div class="column center">    
+  
+  <h1>
+    Melanoma Skin Cancer Detection using a Convolutional Neural Network
+  </h1>
+  <p>
+    Dennis Mott 
+    <br>
+    August 18, 2024
+  </p>
+  <hr>
+  </div>
+  <div class="column left">    
+  </div>
+ 
+</header>
+
+<body>
+  <div class="column left">    
+  </div>
+
+  <div class="column center">    
+    <h3>
+      Skin Cancer
+    </h3>
+    <p>
+      In the United States, skin cancer is the most common form of cancer according to the U.S. Centers 
+      for Disease Control and Prevention [3]. Anyone can get skin cancer and while most skin cancers are 
+      non-melanoma skin cancers, melanoma skin cancers account for 75% of skin cancer-related deaths [1]. 
+      Convolutional Neural Networks (CNNs) have the potential to identify melanoma skin lesions and reduce
+      the number of skin cancer related deaths through early detection and proper treatment. A well-trained 
+      model that generalizes well can help people take the first steps in detecting skin cancer. AI tools such 
+      as <i>Sklip</i> have already been in use since 2022 [2]. The device attaches to a smart phone and performs 
+      a skin analysis based on the images.
+    </p>
+    <p>
+      The inspiration for this project also had a personal motivation too. There are several skin lesions 
+      that I have always been cautious of but never took the time to see a dermatologist. It took me over a 
+      year to make an appointment and when I did, I had to wait three months for the next available appointment. 
+      I visited the dermatologist while working on this project. My doctor identified a mole as being a 
+      potential problem and sent me to get it biopsied. If I had access to a melanoma predictor model earlier 
+      on, I could have used the model to help convince me to see the dermatologist sooner.
+    </p>        
+    <h3>
+      Skin Cancer Prevention Facts and Tips [3]:
+    </h3>
+      <p style="margin-left: 40px;">
+        • Stay in the shade when possible<br>
+        • Wear clothing that covers your arms and legs<br>
+        • Wear a hat with a wide brim to shade your face, head, ears, and neck<br>
+        • Wear sunglasses that wrap around and block both UVA and UVB rays<br>
+        • UV rays are strongest from 10 a.m. to 4 p.m. daylight saving time (9 a.m. to 3 p.m. standard time)<br>
+        • Protection from UV rays is important all year
+      </p>
+    <h3>
+      Modeling
+    </h3>
+    <p>
+      A Convolutional Neural Network (CNN) was made from scratch to predict whether a skin lesion is benign or malignant (melanoma).
+      While there are many pretrained CNN architectures that exist, the CNN architecture for this project was developed from 
+      scratch to personally gain a better understanding of the function of each layer in a CNN. The general steps below were 
+      performed in order to build and optimize the model. Keras documentation greatly assisted in the development of the models.
+      The model is presented in this web application which was created using Flask. It allows a user to upload an 
+      image and view probabilities of their lesion being benign and malignant.
+    </p>
+    <p style="margin-left: 40px;">
+      <b>1) Generate training and validation data sets from images</b>
+    </p>
+    <p style="margin-left: 60px;"> 
+      The training images were split 80/20 into training and validation sets respectively. The images were cropped to 256px x 256px under 
+      the first step using <i>keras.utils.image_dataset_from_directory</i> function.
+    </p>
+    <p style="margin-left: 40px;">
+      <b>2) Preprocess images</b>
+    </p>
+    <p style="margin-left: 60px;"> 
+      The preprocessing layers included <i>Rescaling</i> which transformed the images to a 0 to 1 scale. This helps the model 
+      converge faster which means less training time.
+    </p>
+    <p style="margin-left: 40px;">
+      <b>3) Configure Dataset for Performance</b>
+    </p>
+    <p style="margin-left: 60px;"> 
+      The data was then cached to reduce the time it takes for the GPUs to load the data. <i>Prefetch</i> was also enabled 
+      to process data for the next training iteration while the current training step is occuring.
+    </p>
+    <p style="margin-left: 40px;">
+      <b>4) Build, Compile, Train</b>
+    </p>
+    <p style="margin-left: 60px;"> 
+      Two models were initially built. The first model was very simple, having only a couple of convolution and pooling layers.
+      This model was mainly getting an understanding of setup and troubleshooting errors. The second model added more 
+      conv-pool layers and also dense layers.      
+    </p>
+    <p style="margin-left: 40px;">
+      <b>5) Evaluate Training Performance: AUC-ROC</b>
+    </p>
+    <p style="margin-left: 60px;">
+      The AUC-ROC was plotted against the epoch number to evaluate the model performance. 
+    </p>
+    <p style="margin-left: 40px;">
+      <b>6) Optimize Parameters</b>
+    </p>
+    <p style="margin-left: 60px;">
+      Learning rate, preprocessing layers, optimizer, initializer, dropout were all tuned to improve the model performance.  
+    </p>
+    <h3>
+      Data Description
+    </h3>
+      <p>
+        Skin lesion images from over 2,000 patients were collected by the following sources: Hospital Clínic de Barcelona, 
+        Medical University of Vienna, Memorial Sloan Kettering Cancer Center, Melanoma Institute Australia, University 
+        of Queensland, and the University of Athens Medical School. The metadata was generated by the International 
+        Skin Imaging Collaboration (ISIC) [4].
+        <br>
+        <br>
+        The images were pre-split into training and test sets for the Kaggle competition. It was left this way 
+        to compare model performance with existing models. The training data set consisted of 33,126 images 
+        and the test set consisted of 10,984 images.
+      </p> 
+
+    <h3>
+      Citation for the Data Used For Model Training
+    </h3>
+    <p>
+      International Skin Imaging Collaboration. SIIM-ISIC 2020 Challenge Dataset. International Skin Imaging 
+      Collaboration https://doi.org/10.34970/2020-ds01 (2020).
+    </p>
+    <p>
+      Commons Attribution-Non Commercial 4.0 International License.
+    </p>
+    <p>
+      The dataset was generated by the International Skin Imaging Collaboration (ISIC) and images are from the 
+      following sources: Hospital Clínic de Barcelona, Medical University of Vienna, Memorial Sloan Kettering 
+      Cancer Center, Melanoma Institute Australia, The University of Queensland, and the University of Athens Medical School.
+    </p>
+    <p>
+      https://creativecommons.org/licenses/by-nc/4.0/legalcode.txt.
+    </p>
+    <br>
+    <h3>
+      References
+    </h3>
+    <p>
+      [1] Kao, Szu-Yu Zoe et al. “Economic burden of skin cancer treatment in the USA: an analysis of the Medical Expenditure 
+      Panel Survey Data, 2012-2018.” Cancer causes & control : CCC vol. 34,3 (2023): 205-212. doi:10.1007/s10552-022-01644-0 
+      https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11001479/
+    </p>        
+    <p>
+      [2] Kirkner, Richard Mark, "AI Devices for Triaging Skin Cancer Have Some Hurdles to Clear", <i>Medscape</i>, August 08, 2024, 
+      https://www.medscape.com/viewarticle/ai-devices-triaging-skin-cancer-have-some-hurdles-clear-2024a1000eks?form=fpf
+    </p>
+    <p>
+      [3] "Melanoma of the Skin Statistics", <i>U.S. Centers for Disease Control and Prevention</i>, July 01, 2024, 
+      https://www.cdc.gov/skin-cancer/statistics/index.html
+    </p>        
+    <p>
+      [4] Rotemberg, V., Kurtansky, N., Betz-Stablein, B., Caffery, L., Chousakos, E., Codella, N., Combalia, M., Dusza, S., 
+      Guitera, P., Gutman, D., Halpern, A., Helba, B., Kittler, H., Kose, K., Langer, S., Lioprys, K., Malvehy, J., Musthaq, S., 
+      Nanda, J., Reiter, O., Shih, G., Stratigos, A., Tschandl, P., Weber, J. & Soyer, P. A patient-centric dataset of images and 
+      metadata for identifying melanomas using clinical context. Sci Data 8, 34 (2021). https://doi.org/10.1038/s41597-021-00815-z
+    </p>
+    <br>
+    <p>
+      <b>Data Source and Kaggle Competition Links:</b>
+    </p>
+    <p style="margin-left: 40px;">
+      • https://challenge2020.isic-archive.com/<br>
+      • https://www.kaggle.com/competitions/siim-isic-melanoma-classification/overview
+    </p>          
+    <p>
+      <b>These sites were helpful in creating my CNN model:</b>
+    </p>
+    <p style="margin-left: 40px;">
+      • https://keras.io/<br>
+      • https://www.tensorflow.org/<br>
+      • https://www.datacamp.com/tutorial/convolutional-neural-networks-python
+    </p>        
+    <p>
+      <b>These sites were helpful in creating my web application:</b>
+    </p>
+    <p style="margin-left: 40px;">
+      • https://www.w3schools.com/<br>
+      • https://flask.palletsprojects.com/en/3.0.x/
+    </p>
+    <hr>
+  </div>          
+
+  <div class="column right"> 
+    <h3>
+      Making a Prediction
+    </h3>
+    <p>
+      Please upload an image for skin lesion analysis.
+    </p>          
+    <!-- Uploading Image -->          
+    <form action = "/cnn_melanoma/predict" method = "POST" enctype = "multipart/form-data">
+      <input type = "file" name = "file" />
+      <button type="submit">Make Prediction</button>       
+    </form> 
+          
+    <!-- Displaying Prediction-->  
+    <h3>
+    {{ prediction }}
+    </h3>
+    <img src="../../static/cnn_melanoma/uploads/{{ user_img }}" alt="" class="img_predict"> 
+    <p>
+      Please note this is for educational purposes only. Seek a qualified dermatologist or doctor for
+      any medical advice.
+    </p> 
+  </div>
+</body>           
+{% endblock %}
+
+
+

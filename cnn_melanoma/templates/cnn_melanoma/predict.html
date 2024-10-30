@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}{% endblock %}</h1>
+<nav>
+  <li><a class="active" href="{{ url_for('melanoma') }}">Melanoma</a></li>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="onecolumn">
+    <div class="card">
+      <h2>
+        Melanoma Skin Cancer Detection
+      </h2>
+      <p>
+        Please note this is for educational purposes only. Seek a qualified dermatologist or doctor for
+        any medical advice.
+      </p>
+      <hr class="new1">        
+      <!-- Displaying Prediction-->  
+      <h3>
+        Prediction: {{ prediction }}
+      </h3>
+      <img src="/static/user_upload/{{ user_img }}" alt="User Image", class="img_predict">                          
+   </div>     
+ </div>
+</div>
+{% endblock %}

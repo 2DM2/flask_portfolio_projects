@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('cnn_melanoma_bp.static', filename='cnn_melanoma/styles/style.css') }}">
+  <title>{% block title %}{% endblock %}</title>
+
+  <div class="topnav" id="topnav">    
+    <a href="https://2dm2.github.io/" class="logo">Dennis Mott</a>
+    <hr>
+  </div>
+</head>
+
+<body>
+  {% block header %}
+  {% endblock %}
+
+  {% block content %}    
+  {% endblock %}
+</body>
+
+</html>
+
+
